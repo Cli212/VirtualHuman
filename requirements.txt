@@ -1,4 +1,9 @@
+TTS
 rasa
 rasa-sdk
 transformers
-
+pyaudio
+deepspeech
+pyobjc
+SpeechRecognition
+playsound
