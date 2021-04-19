@@ -27,7 +27,7 @@ from TTS.utils.io import load_config
 from TTS.utils.synthesizer import Synthesizer
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 def load_deepspeech_model():
     ds = Model('./voice/models/deepspeech_models_0.9/deepspeech-0.9.3-models.pbmm')
@@ -199,13 +199,13 @@ class SocketIOInput(InputChannel):
 
         @sio.on('connect', namespace=self.namespace)
         async def connect(sid, environ):
-            logger.debug("User {} connected to socketIO endpoint.".format(sid))
+            # logger.debug("User {} connected to socketIO endpoint.".format(sid))
             print('Connected!')
 
         @sio.on('disconnect', namespace=self.namespace)
         async def disconnect(sid):
-            logger.debug("User {} disconnected from socketIO endpoint."
-                         "".format(sid))
+            pass
+            # logger.debug("User {} disconnected from socketIO endpoint.".format(sid))
 
         @sio.on('session_request', namespace=self.namespace)
         async def session_request(sid, data):
@@ -216,8 +216,8 @@ class SocketIOInput(InputChannel):
             if 'session_id' not in data or data['session_id'] is None:
                 data['session_id'] = uuid.uuid4().hex
             await sio.emit("session_confirm", data['session_id'], room=sid)
-            logger.debug("User {} connected to socketIO endpoint."
-                         "".format(sid))
+            # logger.debug("User {} connected to socketIO endpoint."
+                         # "".format(sid))
 
         @sio.on('user_uttered', namespace=self.namespace)
         async def handle_message(sid, data):

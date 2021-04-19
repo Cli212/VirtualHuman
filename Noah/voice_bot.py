@@ -32,7 +32,7 @@ def tts(text):
 if __name__ == "__main__":
     r = sr.Recognizer()
     bot_message = ''
-    while bot_message != "Bye" or bot_message != 'thanks':
+    while "bye" not in bot_message.lower() and 'thanks' not in bot_message.lower():
         with sr.Microphone() as source:
             print("Speak Anything")
             audio = r.listen(source)
@@ -44,9 +44,9 @@ if __name__ == "__main__":
                 print(e)
         if len(text) == 0:
             continue
-        r = requests.post('http://localhost:5005/webhooks/rest/webhook', json={'message':text})
+        result = requests.post('http://localhost:5005/webhooks/rest/webhook', json={'message':text})
         print("Bot says, ", end=' ')
-        for i in r.json():
+        for i in result.json():
             bot_message = i['text']
             print(bot_message)
             tts(bot_message)
