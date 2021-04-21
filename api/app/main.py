@@ -15,17 +15,19 @@ CORS(app)
 
 print("Started main.py !!!")
 
-response = requests.get('https://docs.google.com/uc?export=download&id=1oSUFKZMao_gQxGDpCZuRXV6EULjFjmoZ')
-sapiens_original = response.json()
+#print("Fetching original file from google docs")
+#response = requests.get('https://docs.google.com/uc?export=download&id=1oSUFKZMao_gQxGDpCZuRXV6EULjFjmoZ')
+#sapiens_original = response.json()
 
-print("Fetched sapiens original")
+print("Fetching original file from folder level")
+with open('./sapiens_original.json', 'r') as file:
+  sapiens_original = json.load(file)
 
-response = requests.get('https://docs.google.com/uc?export=download&id=1mf5CajTUX6mUhmazSsTK7G63Sm_RDXbk')
-sapiens_annotated = response.json()
-with open('./sapiens_annotated.json', 'w') as file:
-  json.dump(sapiens_annotated, file)
-
-print("Fetched sapiens annotated")
+#print("Fetching annotated file from google docs")
+#response = requests.get('https://docs.google.com/uc?export=download&id=1mf5CajTUX6mUhmazSsTK7G63Sm_RDXbk')
+#sapiens_annotated = response.json()
+#with open('./sapiens_annotated.json', 'w') as file:
+#  json.dump(sapiens_annotated, file)
 
 dictionary_df = []
 
@@ -46,14 +48,14 @@ df = pd.DataFrame(dictionary_df)
 #cdqa_pipeline.fit_retriever(df=df)
 #cdqa_pipeline.fit_reader('./sapiens_annotated.json')
 
-# Use the pretrained annotated distilbert file
-wget.download(url='https://github.com/Rathore25/SapiensAI/raw/main/Pretrained Data/sapiens_distilbert.joblib', out='./')
-cdqa_pipeline = QAPipeline(reader='./sapiens_distilbert.joblib')
-cdqa_pipeline.fit_retriever(df=df)
-
-# On local server
+#print("Use the pretrained annotated distilbert file")
+#wget.download(url='https://github.com/Rathore25/SapiensAI/raw/main/Pretrained Data/sapiens_distilbert.joblib', out='./')
 #cdqa_pipeline = QAPipeline(reader='./sapiens_distilbert.joblib')
 #cdqa_pipeline.fit_retriever(df=df)
+
+print("Using the local pretrained file for local server")
+cdqa_pipeline = QAPipeline(reader='./sapiens_bert.joblib')
+cdqa_pipeline.fit_retriever(df=df)
 
 @app.route("/api", methods=["GET"])
 def api():
