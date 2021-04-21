@@ -15,19 +15,17 @@ CORS(app)
 
 print("Started main.py !!!")
 
-#print("Fetching original file from google docs")
-#response = requests.get('https://docs.google.com/uc?export=download&id=1oSUFKZMao_gQxGDpCZuRXV6EULjFjmoZ')
-#sapiens_original = response.json()
+response = requests.get('https://docs.google.com/uc?export=download&id=1oSUFKZMao_gQxGDpCZuRXV6EULjFjmoZ')
+sapiens_original = response.json()
 
-print("Fetching original file from folder level")
-with open('./sapiens_original.json', 'r') as file:
-  sapiens_original = json.load(file)
+print("Fetched sapiens original")
 
-#print("Fetching annotated file from google docs")
-#response = requests.get('https://docs.google.com/uc?export=download&id=1mf5CajTUX6mUhmazSsTK7G63Sm_RDXbk')
-#sapiens_annotated = response.json()
-#with open('./sapiens_annotated.json', 'w') as file:
-#  json.dump(sapiens_annotated, file)
+response = requests.get('https://docs.google.com/uc?export=download&id=1b5xy1Z4EuFVXkMOQIupl27a1kRNPguVr')
+sapiens_annotated = response.json()
+with open('./sapiens_annotated.json', 'w') as file:
+  json.dump(sapiens_annotated, file)
+
+print("Fetched sapiens annotated")
 
 dictionary_df = []
 
@@ -43,19 +41,20 @@ for item in sapiens_original['data']:
 df = pd.DataFrame(dictionary_df)
 
 # Get original Bert_qa and then train on our annotated dataset
-#wget.download(url='https://github.com/cdqa-suite/cdQA/releases/download/bert_qa/bert_qa.joblib', out='./')
-#cdqa_pipeline = QAPipeline(reader='./bert_qa.joblib')
-#cdqa_pipeline.fit_retriever(df=df)
-#cdqa_pipeline.fit_reader('./sapiens_annotated.json')
+wget.download(url='https://github.com/cdqa-suite/cdQA/releases/download/bert_qa/bert_qa.joblib', out='./')
+cdqa_pipeline = QAPipeline(reader='./bert_qa.joblib')
+cdqa_pipeline.fit_retriever(df=df)
+cdqa_pipeline.fit_reader('./sapiens_annotated.json')
 
-#print("Use the pretrained annotated distilbert file")
-#wget.download(url='https://github.com/Rathore25/SapiensAI/raw/main/Pretrained Data/sapiens_distilbert.joblib', out='./')
+# Use the pretrained annotated Distilbert file
+#wget.download(url='https://github.com/Rathore25/Sapiens-QA/raw/main/Pretrained Data/sapiens_distilbert.joblib', out='./')
 #cdqa_pipeline = QAPipeline(reader='./sapiens_distilbert.joblib')
 #cdqa_pipeline.fit_retriever(df=df)
 
-print("Using the local pretrained file for local server")
-cdqa_pipeline = QAPipeline(reader='./sapiens_bert.joblib')
-cdqa_pipeline.fit_retriever(df=df)
+# Use the pretrained annotated Bert file
+#wget.download(url='https://github.com/Rathore25/Sapiens-QA/raw/main/Pretrained Data/sapiens_bert.joblib', out='./')
+#cdqa_pipeline = QAPipeline(reader='./sapiens_bert.joblib')
+#cdqa_pipeline.fit_retriever(df=df)
 
 @app.route("/api", methods=["GET"])
 def api():
