@@ -32,7 +32,7 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
   - name: FallbackClassifier
-    threshold: 0.3
+    threshold: 0.7
   - name: EntitySynonymMapper
 
 # Configuration for Rasa Core.
