@@ -49,6 +49,13 @@ stories:
     - intent: negative_answer
   - action: utter_intro_sapiens
 
+- story: tell more
+  steps:
+  - intent: tell_more
+  - action: utter_ask_more_questions
+  - intent: sapiens_question
+  - action: action_cdqa
+
 - story: qa of sapiens
   steps:
   - intent: sapiens_question

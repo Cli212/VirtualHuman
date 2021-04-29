@@ -15,7 +15,7 @@ intents:
   - negative_answer
   - sapiens_question
   - ask_for_intro_sapiens
-  - utter_intro_sapiens
+  - tell_more
   - agent.acquaintance
   - agent.age
   - agent.annoying
@@ -105,10 +105,10 @@ intents:
 
 responses:
   utter_greet:
-    text: "Hey! How are you?"
+  - text: "Hey! How are you?"
 
   utter_cheer_up:
-    text: "Here is something to cheer you up:"
+  - text: "Here is something to cheer you up:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
@@ -133,10 +133,12 @@ responses:
 
   utter_intro_sapiens:
     - text: "The book surveys the history of humankind from the evolution of archaic human species in the Stone Age up to the twenty-first century, focusing on Homo sapiens.\n "
-
+  utter_ask_more_questions:
+    - text: "What aspects do you want to know?"
   utter_ask_for_questions:
     - text: "Do you have some questions about book Sapiens to ask me?"
-
+  utter_please_rephrase:
+    - text: "I'm sorry, I didn't quite understand that. Could you explain it?"
   utter_agent.acquaintance:
     - text: "I'm a virtual agent"
     - text: "Think of me as a virtual agent."
@@ -593,7 +595,11 @@ slots:
   read_sapiens:
     type: bool
     influence_conversation: true
+  last_paragraph:
+    type: text
+    influence_conversation: true
 
 actions:
   - action_cdqa
   - action_read_sapiens
+  - action_fallback
